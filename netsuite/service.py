@@ -33,3 +33,7 @@ CashSaleItemList = model('ns20:CashSaleItemList')
 SalesOrder = model('ns20:SalesOrder')
 SalesOrderItem = model('ns20:SalesOrderItem')
 SalesOrderItemList = model('ns20:SalesOrderItemList')
+
+JournalEntryLine = model('ns32:JournalEntryLine')
+JournalEntryLineList = model('ns32:JournalEntryLineList')
+JournalEntry = model('ns32:JournalEntry')

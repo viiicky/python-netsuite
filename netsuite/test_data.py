@@ -23,7 +23,9 @@ test_data = {
 	'expiration_date_month': '1',
 	'expiration_date_year': '2018',
 	'cvc2': '333',
-	'shipping_cost': 7.99
+	'shipping_cost': 7.99,
+	'subsidiary_internal_id': '1',
+	'line_entries': [{'entry_type': 'C', 'account_internal_id': '45', 'amount': 100}, {'entry_type': 'D', 'account_internal_id': '60', 'amount': 100}]
 }
 test_data['billing_address'] = test_data['shipping_address']
 
