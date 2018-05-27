@@ -30,6 +30,9 @@ def create_journal_entry(data):
     # post JournalEntry and return the same with True by fetching it in case of successful post,
     # else return the returned error response with False
     response = client.service.add(journal_entry, _soapheaders={'passport': passport, 'applicationInfo': app_info})
+    # Note: Above call will fail with newer WSDL. Newer WSDLs are strict on not passing the passport in these calls.
+    # If using newer WSDL just do `response = client.service.add(journal_entry)` else you will get ambiguous authentication exception.
+    # Same applies on the call inside the utils#get_record_by_type()
     r = response.body.writeResponse
     if r.status.isSuccess:
         result = get_record_by_type('journalEntry', r.baseRef.internalId)
