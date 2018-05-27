@@ -25,7 +25,7 @@ test_data = {
 	'cvc2': '333',
 	'shipping_cost': 7.99,
 	'subsidiary_internal_id': '1',
-	'line_entries': [{'entry_type': 'C', 'account_internal_id': '45', 'amount': 100}, {'entry_type': 'D', 'account_internal_id': '60', 'amount': 100}]
+	'line_entries': [{'entry_type': 'C', 'account_internal_id': '45', 'amount': 100, 'memo': 'Test credit entry created by Netsuite Python Toolkit.'}, {'entry_type': 'D', 'account_internal_id': '60', 'amount': 100, 'memo': 'Test debit entry created by Netsuite Python Toolkit.'}]
 }
 test_data['billing_address'] = test_data['shipping_address']
 

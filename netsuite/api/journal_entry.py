@@ -9,7 +9,7 @@ def create_journal_entry(data):
     journal_entry_line_list = JournalEntryLineList(line=[])
     for line_entry in data.line_entries:
         journal_entry_line = JournalEntryLine(
-            account=RecordRef(internalId=line_entry.account_internal_id, type='account'))
+            account=RecordRef(internalId=line_entry.account_internal_id, type='account'), memo=line_entry.memo)
         if line_entry.entry_type in 'cC':
             journal_entry_line.credit = line_entry.amount
         elif line_entry.entry_type in 'dD':
