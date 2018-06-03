@@ -1,31 +1,63 @@
+import uuid
+
 from netsuite.utils import obj
 
 test_data = {
     'line_items': [
-		{'internal_id': 165, 'quantity': 1}
-	],
-	'first_name': 'Joe',
-	'last_name': 'Bloggs',
-	'phone_number': '777777777',
-	'email': 'fmalina@gmail.com',
-	'password': 'ovcaaaa',
-	'marketing_agreement': True,
+        {'internal_id': 165, 'quantity': 1}
+    ],
+    'first_name': 'Joe',
+    'last_name': 'Bloggs',
+    'phone_number': '777777777',
+    'email': 'fmalina@gmail.com',
+    'password': 'ovcaaaa',
+    'marketing_agreement': True,
     'shipping_address': {
-	    'address_line_1': '777 Green Avenue',
-	    'address_line_2': 'Spring Hill',
-	    'city': 'Springfield',
-	    'region': 'OR',
-	    'zip_code': '12121',
-	    'country': 'United States'
+        'address_line_1': '777 Green Avenue',
+        'address_line_2': 'Spring Hill',
+        'city': 'Springfield',
+        'region': 'OR',
+        'zip_code': '12121',
+        'country': 'United States'
     },
-	'credit_card_number': '4444333322221111',
-	'credit_card_owner': 'J. Bloggs',
-	'expiration_date_month': '1',
-	'expiration_date_year': '2018',
-	'cvc2': '333',
-	'shipping_cost': 7.99,
-	'subsidiary_internal_id': '1',
-	'line_entries': [{'entry_type': 'C', 'account_internal_id': '45', 'amount': 100, 'memo': 'Test credit entry created by Netsuite Python Toolkit.'}, {'entry_type': 'D', 'account_internal_id': '60', 'amount': 100, 'memo': 'Test debit entry created by Netsuite Python Toolkit.'}]
+    'credit_card_number': '4444333322221111',
+    'credit_card_owner': 'J. Bloggs',
+    'expiration_date_month': '1',
+    'expiration_date_year': '2018',
+    'cvc2': '333',
+    'shipping_cost': 7.99,
+    'journal_entries': [
+        {
+            'external_id': uuid.uuid4().hex,
+            'subsidiary_internal_id': '1',
+            'line_entries': [{
+                'entry_type': 'C',
+                'account_internal_id': '45',
+                'amount': 100,
+                'memo': 'Test credit entry created by Netsuite Python Toolkit.'
+            }, {
+                'entry_type': 'D',
+                'account_internal_id': '60',
+                'amount': 100,
+                'memo': 'Test debit entry created by Netsuite Python Toolkit.'
+            }]
+        },
+        {
+            'external_id': uuid.uuid4().hex,
+            'subsidiary_internal_id': '1',
+            'line_entries': [{
+                'entry_type': 'C',
+                'account_internal_id': '45',
+                'amount': 500,
+                'memo': 'Test credit entry created by Netsuite Python Toolkit.'
+            }, {
+                'entry_type': 'D',
+                'account_internal_id': '60',
+                'amount': 500,
+                'memo': 'Test debit entry created by Netsuite Python Toolkit.'
+            }]
+        }
+    ]
 }
 test_data['billing_address'] = test_data['shipping_address']
 

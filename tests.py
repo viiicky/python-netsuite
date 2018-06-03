@@ -5,7 +5,7 @@ from netsuite.api.customer import (
     get_or_create_customer,
     get_customer
 )
-from netsuite.api.journal_entry import create_journal_entry
+from netsuite.api.journal_entry import create_journal_entries
 from netsuite.api.sale import (
     create_cashsale,
     create_salesorder
@@ -33,9 +33,10 @@ class NetsuiteTestCase(unittest.TestCase):
         self.assertTrue(created)
 
     def test_journal_entry(self):
-        created, result = create_journal_entry(data)
-        self.assertTrue(created)
-        self.assertEqual(data.subsidiary_internal_id, result.subsidiary.internalId)
+        result = create_journal_entries(data.journal_entries)
+        for external_id, status in result:
+            self.assertIsNotNone(external_id)
+            self.assertTrue(status)
 
 
 if __name__ == "__main__":

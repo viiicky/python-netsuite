@@ -1,10 +1,8 @@
-from netsuite.utils import get_record_by_type
-
 from netsuite.service import RecordRef, JournalEntry, JournalEntryLineList, JournalEntryLine
 from netsuite.client import client, passport, app_info
 
 
-def create_journal_entry(data):
+def prepare_journal_entry(data):
     # prepare lineList for JournalEntry
     journal_entry_line_list = JournalEntryLineList(line=[])
     for line_entry in data.line_entries:
@@ -20,21 +18,36 @@ def create_journal_entry(data):
 
     # assemble data for JournalEntry at one place
     journal_entry_data = {
+        'externalId': data.external_id,
         'subsidiary': RecordRef(internalId=data.subsidiary_internal_id, type='subsidiary'),
         'lineList': journal_entry_line_list
     }
 
     # prepare JournalEntry from the assembled data
-    journal_entry = JournalEntry(**journal_entry_data)
+    return JournalEntry(**journal_entry_data)
 
-    # post JournalEntry and return the same with True by fetching it in case of successful post,
-    # else return the returned error response with False
-    response = client.service.add(journal_entry, _soapheaders={'passport': passport, 'applicationInfo': app_info})
+
+def create_journal_entries(journal_entries_data):
+    journal_entries = [prepare_journal_entry(d) for d in journal_entries_data]
+
+    response = client.service.addList(journal_entries, _soapheaders={'passport': passport, 'applicationInfo': app_info})
     # Note: Above call will fail with newer WSDL. Newer WSDLs are strict on not passing the passport in these calls.
-    # If using newer WSDL just do `response = client.service.add(journal_entry)` else you will get ambiguous authentication exception.
+    # If using newer WSDL just do `response = client.service.addList(journal_entries)`,
+    # else you will get ambiguous authentication exception.
     # Same applies on the call inside the utils#get_record_by_type()
-    r = response.body.writeResponse
-    if r.status.isSuccess:
-        result = get_record_by_type('journalEntry', r.baseRef.internalId)
-        return True, result
-    return False, r
+
+    r_list = response.body.writeResponseList
+    if r_list.status.isSuccess:
+        result = []
+        for je, r in zip(journal_entries, r_list.writeResponse):
+            # TODO: Instead of returning True/False with external_id, return Record/None with external_id
+            # making use of utils#get_records()
+            if r.status.isSuccess:
+                result.append((je.externalId, True))
+            else:
+                print('Exception occurred while posting journal entry: {}'.format(r))
+                result.append((je.externalId, False))
+        return result
+    else:
+        print('Exception occurred while posting journal entries: {}'.format(r_list))
+        raise Exception(r_list.status.statusDetail.message)
