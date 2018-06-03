@@ -40,7 +40,7 @@ def create_journal_entries(journal_entries_data):
     if r_list.status.isSuccess:
         result = []
         for je, r in zip(journal_entries, r_list.writeResponse):
-            # TODO: Instead of returning True/False with external_id, return Record/None with external_id
+            # TODO: Instead of returning True/False with external_id, return True/False + Record/Error with external_id
             # making use of utils#get_records()
             if r.status.isSuccess:
                 result.append((je.externalId, True))
