@@ -49,5 +49,5 @@ def create_journal_entries(journal_entries_data):
                 result.append((je.externalId, False))
         return result
     else:
-        print('Exception occurred while posting journal entries: {}'.format(r_list))
-        raise Exception(r_list.status.statusDetail.message)
+        print('Exception occurred while posting journal entries: {}'.format(r_list.status.statusDetail.message))
+        raise Exception(r_list)
